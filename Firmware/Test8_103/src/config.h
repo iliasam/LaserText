@@ -3,8 +3,7 @@
 
 #define M_PI    3.141592f
 
-#define BYTES_IN_LINE   32
-
+#define BYTES_IN_LINE   32 //This define length of visble line in bytes (*8 to get pixels in line)
 #define DEFAULT_PASE_SHIFT   12
 
 #define SPI_DIV   SPI_BaudRatePrescaler_32

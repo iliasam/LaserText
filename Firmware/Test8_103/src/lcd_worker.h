@@ -6,7 +6,7 @@
 #include "fonts.h"
 
 #define LCD_WIDTH       (8*32)
-#define LCD_HEIGHT      16
+#define LCD_HEIGHT      24
 
 #define LCD_LEFT_OFFSET         0
 #define LCD_RIGHT_OFFSET        (LCD_WIDTH - 0)

@@ -1,3 +1,5 @@
+//This file contains functions that are used to control polygone mirror and it's encoder (used for synchronization)
+
 #include "stm32f10x.h"
 #include "poly_mirror.h"
 #include "vertical_mirror.h"
@@ -41,7 +43,7 @@ void ENCODER_IRQ_Handler(void)
     //vertical_mirror_new_step();
     scan_pos = 0;
     
-    if (encoder_period_fast > (1500*(ENCODER_TIMER_FREQ / 1000000)))
+    if (encoder_period_fast > (1500*(ENCODER_TIMER_FREQ / 1000000)))//Laser mus be turned on all time when rotation speed is low
       laser_blocked_on = 1;//disable modulation
     else
       laser_blocked_on = 0;//enable modulation

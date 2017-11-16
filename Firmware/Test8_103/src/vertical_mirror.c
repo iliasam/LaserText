@@ -1,3 +1,5 @@
+//This file contains functions that are used to control vertical mirror
+
 #include "stm32f10x.h"
 #include "vertical_mirror.h"
 #include "config.h"

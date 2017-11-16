@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\MYPROGS\LaserText\Firmware\Test8_103\settings\1.Debug.general.xcl" --backend -f "D:\MYPROGS\LaserText\Firmware\Test8_103\settings\1.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\GITHUB\LaserText\Firmware\Test8_103\settings\1.Debug.general.xcl" --backend -f "D:\GITHUB\LaserText\Firmware\Test8_103\settings\1.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\MYPROGS\LaserText\Firmware\Test8_103\settings\1.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\MYPROGS\LaserText\Firmware\Test8_103\settings\1.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "D:\GITHUB\LaserText\Firmware\Test8_103\settings\1.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\GITHUB\LaserText\Firmware\Test8_103\settings\1.Debug.driver.xcl" 
 
 @echo off 
 :end

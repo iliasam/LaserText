@@ -1,4 +1,8 @@
-//stm32f103c8t6
+//stm32f103c8t6 laser projector
+//IAR compiler
+
+//Try to modify "phase_shift" variable if the is some verticl offset of the image
+
 #include "stm32f10x.h"
 #include "vertical_mirror.h"
 #include "poly_mirror.h"
@@ -37,11 +41,12 @@ uint16_t scanning_freq = 0;//Frequency of scanning (lines in second)
 void InitAll( void);
 void Delay( long Val);
 void Delay_ms(uint32_t ms);
-void SetupUSART1(void);
 void Setup_clk(void);
 void analyse_handler(void);
+
 void image_update_handler(void);
 void image_update_handler2(void);
+void image_update_handler3(void);
 
 void main(void)
 {
@@ -66,6 +71,7 @@ void main(void)
   }
 }
 
+//Functions to calculate sync frequency and update PWM period of poly mirror timer
 void analyse_handler(void)
 {
   if (TIMER_ELAPSED(analyse_timer))
@@ -77,8 +83,7 @@ void analyse_handler(void)
   }
 }
 
-
-
+//"floating" string
 void image_update_handler(void)
 {
   static uint8_t counter = 0;
@@ -90,9 +95,6 @@ void image_update_handler(void)
     
     lcd_clear_framebuffer();
     char tmp_str[32];
-    //sprintf(tmp_str, "САМОДЕЛЬНЫЙ ЛАЗЕРНЫЙ ПРОЕКТОР: %d", counter);
-    //lcd_draw_string(tmp_str, 0, 0, FONT_SIZE_8, 0);
-
     
     sprintf(tmp_str, "COUNTER: %d", counter);
     lcd_draw_string(tmp_str, 0, 0, FONT_SIZE_8, 0);
@@ -100,7 +102,6 @@ void image_update_handler(void)
     
     counter++;
     buffer_switch_request = 1;
-    
     
     if ((x > 50) || (x < 1)) 
       dir^= 1;
@@ -113,7 +114,6 @@ void image_update_handler(void)
 
 void image_update_handler2(void)
 {
-  uint8_t i;
   static uint8_t counter = 0;
   
   if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))
@@ -121,24 +121,33 @@ void image_update_handler2(void)
     START_TIMER(update_timer, 50);
     
     lcd_clear_framebuffer();
-    /*
-    for (i=0; i<100; i++)
-    {
-      uint16_t rnd_val = (uint16_t)((6.0 * sin((float)(i + counter) / 3.0)) + 8.0);
-      //uint16_t rnd_val = (i + counter) % 16;
-      lcd_set_pixel(i, rnd_val);
-    }
-    */
+
     lcd_draw_string("GEEKTIMES.RU", 0, 0, FONT_SIZE_8, 0);
     lcd_draw_string("LASER PROJECTOR", 0, 8, FONT_SIZE_8, 0);
-    
     
     counter++;
     buffer_switch_request = 1;
   }
 }
 
+void image_update_handler3(void)
+{
+  if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))
+  {
+    START_TIMER(update_timer, 50);
+    
+    lcd_clear_framebuffer();
 
+    
+    lcd_draw_string("FONT SIZE 11x7", 0, 0, FONT_SIZE_11, 0);
+    lcd_draw_string("FONT SIZE 7x5", 120, 0, FONT_SIZE_8, 0);
+    lcd_draw_string("FONT SIZE 6x4", 0, 12, FONT_SIZE_6, 0);
+    
+    lcd_draw_string("FONT SIZE 7x5", 120, 8, FONT_SIZE_8, 0);
+    
+    buffer_switch_request = 1;
+  }
+}
 
 
 void InitAll( void) 
@@ -153,19 +162,11 @@ void InitAll( void)
   
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
   
-  //для светодиода
+  //debug led
   GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_9;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
-  
-  
-  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_6;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
-  
-  return;
 }
 
 
@@ -173,7 +174,6 @@ void Setup_clk(void)
 {
   ErrorStatus HSEStartUpStatus;
   
-  //Настраиваем систему тактирования
   RCC_DeInit(); /* RCC system reset(for debug purpose) */
   RCC_HSEConfig(RCC_HSE_ON);/* Enable HSE */
   HSEStartUpStatus = RCC_WaitForHSEStartUp();/* Wait till HSE is ready */
@@ -207,54 +207,7 @@ void Delay_ms(uint32_t ms)
 }
 
 
-void SetupUSART1(void)
-{
-  GPIO_InitTypeDef  GPIO_InitStructure;
-  USART_InitTypeDef USART_InitStructure;
-  
-  /* Enable GPIOA clock                                                   */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_USART1, ENABLE);
-  
-  /* Configure USART1 Rx (PA10) as input floating                         */
-  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN_FLOATING;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-  
-  /* Configure USART1 Tx (PA9) as alternate function push-pull            */
-  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_9;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-  
-  
-  USART_InitStructure.USART_BaudRate = 9600;   
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;   
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;   
-  USART_InitStructure.USART_Parity = USART_Parity_No ;   
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;   
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; 
-  
-  USART_Init(USART1, &USART_InitStructure);
-  USART_Cmd(USART1, ENABLE);
-  
-}
-
-
 int putchar(int c)
- {
-    /* Write a character to the USART */   
-  USART_SendData(USART1, (u8) c);   
-   
-  /* Loop until the end of transmission */   
-  while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET)   
-  {   
-  }      
+{  
   return c;    
 }
-
-
-
-
-
-
