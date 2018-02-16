@@ -103,7 +103,7 @@ void vertical_mirror_init_step_tables(void)
 
 
 
-//Timer is used to controll vertical mirror
+//Timer is used to control vertical mirror
 void vertical_mirror_init_pwm_timer(void)
 {
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;

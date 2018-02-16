@@ -1,4 +1,4 @@
-//This file contains functions that are used to control polygone mirror and it's encoder (used for synchronization)
+//This file contains functions that are used to control polygon mirror and it's encoder (used for synchronization)
 
 #include "stm32f10x.h"
 #include "poly_mirror.h"
@@ -35,7 +35,7 @@ void ENCODER_IRQ_Handler(void)
   {
     encoder_period_fast = TIM_GetCapture1(ENCODER_TIMER_NAME);
     interrupt_enter = interrupt_time - encoder_period_fast;
-    ENCODER_TIMER_NAME->CNT = interrupt_enter;//RESET timer wih compensation of time to enter into this interrupt
+    ENCODER_TIMER_NAME->CNT = interrupt_enter;//RESET timer with compensation of time to enter into this interrupt
     
     encoder_period = filter_period(encoder_period_fast);
     
@@ -136,7 +136,7 @@ void poly_mirror_init_hardware(void)
   poly_mirror_init_encoder_timer();
 }
 
-//Init timer i capture input mode - used to calculate rotation speed and start pulses
+//Init timer - capture input mode - used to calculate rotation speed and start pulses
 void poly_mirror_init_encoder_timer(void)
 {
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
@@ -229,7 +229,7 @@ void poly_mirror_init_pwm_timer(void)
   TIM_Cmd(POLY_TIMER_NAME, ENABLE);
 }
 
-//Set new period of PWM for polygone mirror motor
+//Set new period of PWM for polygon mirror motor
 void poly_mirror_set_pwm_period(uint16_t value)
 {
   TIM_SetAutoreload(POLY_TIMER_NAME, value);

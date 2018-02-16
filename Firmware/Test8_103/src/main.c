@@ -1,7 +1,7 @@
 //stm32f103c8t6 laser projector
 //IAR compiler
 
-//Try to modify "phase_shift" variable if the is some verticl offset of the image
+//Try to modify "phase_shift" variable if the is some vertical offset of the image
 
 #include "stm32f10x.h"
 #include "vertical_mirror.h"

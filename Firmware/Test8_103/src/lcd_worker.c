@@ -1,5 +1,5 @@
 //Special framebuffer wrapper used for basic operations - text drawing
-//This file is teken from my another project that worked with LCD
+//This file is taken from my another project that worked with LCD
 #include "lcd_worker.h"
 #include "main.h"
 
@@ -15,8 +15,8 @@ void lcd_draw_char_size11(uint8_t chr, uint16_t x_start, uint16_t y_start, uint8
 uint8_t lcd_framebuffer0[LCD_WIDTH*LCD_HEIGHT / 8];
 uint8_t lcd_framebuffer1[LCD_WIDTH*LCD_HEIGHT / 8];
 
-uint8_t* front_framebuffer_p = lcd_framebuffer0; //front framwbuffer pinter
-uint8_t* shadow_framebuffer_p = lcd_framebuffer1;//shadow framwbuffer pinter
+uint8_t* front_framebuffer_p = lcd_framebuffer0; //front framebuffer pinter
+uint8_t* shadow_framebuffer_p = lcd_framebuffer1;//shadow framebuffer pinter
 
 uint8_t buffer_switch_flag = 0;//This flag is set after switching buffers
 
