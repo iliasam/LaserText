@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=1864180642
+Checksum=79717651
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 0
@@ -54,7 +54,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [StLinkDriver]
-stlinkserialNo=2798FD0D
+stlinkserialNo=BBAD2C26
 stlinkfoundProbes=
 CStepIntDis=_ 0
 [SWOTraceHWSettings]
@@ -79,8 +79,9 @@ Fmt0=uint8_t[256]	1	0
 Fmt1=uint8_t[31]	3	0
 Fmt2=uint8_t[32]	3	0
 [watch_formats]
-Fmt0={W}42:line_conv_table	3	2
-Fmt1={W}42:phase_shift	3	0
+Fmt0={W}42:laser_blocked_on	3	0
+Fmt1={W}42:line_conv_table	3	2
+Fmt2={W}42:phase_shift	3	0
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -141,7 +142,10 @@ ShowTiming=1
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Count=0
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\src\vertical_mirror.c}.177.3" 0 0 1 "" 0 "" 0
+Count=1
 [Aliases]
-Count=0
+A0=_ "D:\MYPROGS\LaserText\Firmware\Test7_103\src\StdPeriphLib\stm32f10x_rcc.c" ""
+A1=_ "D:\MYPROGS\LaserText\Firmware\Test7_103\src\StdPeriphLib\stm32f10x_tim.c" ""
+Count=2
 SuppressDialog=0

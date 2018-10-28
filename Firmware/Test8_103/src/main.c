@@ -162,11 +162,12 @@ void InitAll( void)
   
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
   
-  //debug led
-  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_9;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  //debug led - low is ON
+  GPIO_InitStructure.GPIO_Pin   = LED_PIN;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
   GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(LED_PORT, &GPIO_InitStructure);
+  LED_PORT->ODR |= LED_PIN;//turn led ON
 }
 
 
@@ -187,13 +188,32 @@ void Setup_clk(void)
     RCC_PCLK2Config(RCC_HCLK_Div1);/* PCLK2 = HCLK */
     RCC_PCLK1Config(RCC_HCLK_Div2);/* PCLK1 = HCLK / 2 */
     
-    RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_3);//PLLCLK = 8MHz * 9 = 72 MHz <<<<<
+    RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_3);//PLLCLK = 8MHz * 3 = 24 MHz <<<<<
     RCC_PLLCmd(ENABLE);/* Enable PLL */
     while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET){};/* Wait till PLL is ready */
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);/* Select PLL as system clock source */
     while (RCC_GetSYSCLKSource() != 0x08){}/* Wait till PLL is used as system clock source */
+    SystemCoreClockUpdate();
   }
-  SystemCoreClockUpdate();
+  else
+  {
+    SystemCoreClockUpdate();
+    
+    GPIO_InitTypeDef  GPIO_InitStructure;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    //debug led
+    GPIO_InitStructure.GPIO_Pin   = LED_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+    GPIO_Init(LED_PORT, &GPIO_InitStructure);
+    LED_PORT->ODR &= ~LED_PIN;//turn led ON
+    
+    while (1)
+    {
+      //RCC fail
+    }
+  }
+  
   
 }
 

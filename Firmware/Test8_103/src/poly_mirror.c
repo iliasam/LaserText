@@ -40,16 +40,15 @@ void ENCODER_IRQ_Handler(void)
     encoder_period = filter_period(encoder_period_fast);
     
     TIM_ClearITPendingBit(ENCODER_TIMER_NAME, TIM_IT_CC1);
-    //vertical_mirror_new_step();
     scan_pos = 0;
     
-    if (encoder_period_fast > (1500*(ENCODER_TIMER_FREQ / 1000000)))//Laser mus be turned on all time when rotation speed is low
+    if (encoder_period_fast > (SYSTEM_MIN_PERIOD * (ENCODER_TIMER_FREQ / 1000000)))//Laser must be turned on all time when rotation speed is low
       laser_blocked_on = 1;//disable modulation
     else
       laser_blocked_on = 0;//enable modulation
     
     do_line_scan_switch();
-    GPIOC->ODR^= GPIO_Pin_9;//debugging
+    //LED_PORT->ODR^= LED_PIN;//debugging
   }
   
   if (TIM_GetITStatus(ENCODER_TIMER_NAME, TIM_IT_CC2) == SET)//timer compare interrupt
@@ -60,7 +59,7 @@ void ENCODER_IRQ_Handler(void)
 }
 
 
-//State machine that is switched by encoder and syncro timer
+//State machine that is switched by encoder and syncro timer interrupts
 //This function update compare register of syncro timer
 void do_line_scan_switch(void)
 {

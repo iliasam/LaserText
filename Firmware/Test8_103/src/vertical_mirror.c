@@ -25,7 +25,7 @@ void vertical_mirror_init_step_tables(void);
 
 void vertical_mirror_init_hardware(void)
 {
-  init_debug_dac();
+  //init_debug_dac(); //No DAC in stm32f103c8t6
   vertical_mirror_init_pwm_timer();
   vertical_mirror_init_step_tables();
 }
