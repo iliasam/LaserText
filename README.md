@@ -1,6 +1,7 @@
 # LaserText
 Very simple text laser projector.
-Article in Russian about it: https://geektimes.ru/post/294619/
+Article in English about it: https://habr.com/ru/post/438618/  
+Article in Russian about it: https://habr.com/ru/post/407591/
 
 Main parts of it are: polygon mirror module, laser, BLDC motor from DVD with glued mirror, MCU board, photosensor, bread board, ULN2003.
 
