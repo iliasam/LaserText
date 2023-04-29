@@ -52,5 +52,4 @@ dkms.conf
 
 *.o
 *.cout
-*.s
 Firmware/Test8_103/Debug/Obj/
