@@ -44,6 +44,7 @@ void vertical_mirror_new_step(void)
   vertical_mirror_set_pwm_a( verical_step_table_a[new_pos] );
   vertical_mirror_set_pwm_b( verical_step_table_b[new_pos] );
   
+  // For debug only!
   DAC_SetChannel1Data(DAC_Align_12b_R, verical_step_table_a[new_pos]);
 }
 

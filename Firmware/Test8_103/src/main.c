@@ -27,7 +27,7 @@ long tmp;
 
 
 
-volatile uint16_t test_pwm = 2000;
+volatile uint16_t poly_motor_pwm_period = 2000;
 extern volatile uint16_t encoder_period;
 extern float bldc_vertical_frequency;
 extern uint8_t buffer_switch_request;//Main software set this flag when buffer switching is need
@@ -79,10 +79,11 @@ void analyse_handler(void)
     START_TIMER(analyse_timer, 100);
     
     scanning_freq = (uint16_t)(ENCODER_TIMER_FREQ / encoder_period);
-    poly_mirror_set_pwm_period(test_pwm);
+    poly_mirror_set_pwm_period(poly_motor_pwm_period);
   }
 }
 
+//Not used, just example
 //"floating" string
 void image_update_handler(void)
 {
@@ -130,6 +131,7 @@ void image_update_handler2(void)
   }
 }
 
+//Not used, just example
 void image_update_handler3(void)
 {
   if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))

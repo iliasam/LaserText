@@ -1,6 +1,8 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
+//Win1251 encoding is used in IAR
+
 #define M_PI    3.141592f
 
 #define BYTES_IN_LINE   32 //This define length of visible line in bytes (*8 to get pixels in line)
@@ -34,18 +36,13 @@
 //Period of PWM timer - 1200 at (SystemCoreClock = 24MHz)
 #define BLDC_PWM_TIMER_PERIOD           (SystemCoreClock / BLDC_PWM_TIMER_FREQ)
 
-// THIS VARIABLES MUS BE ADJUSTED!
-// Ðâ€œÂ» Â«ÐŒÑ˜â€žÐŒÂ»Ñ ÐŒâ€âˆ†ÐŒÑœ Ñ•ÑœÆ’Ð…Â»â€“Ñ˜â€œâ„–!
+// THIS VARIABLES MUST BE ADJUSTED!
+// ÝÒÈ ÇÍÀ×ÍÈß ÍÓÆÍÎ ÏÎÄÁÈÐÀÒÜ!
 #define BLDC_PWM_OFFSET                 (500)
 #define BLDC_PWM_MIN_VALUE              (BLDC_PWM_OFFSET)
 #define BLDC_PWM_MAX_VALUE              (BLDC_PWM_OFFSET + 170)
 
 #define BLDC_STEP_COUNT                 32//Number of timer steps in vertical direction
-
-#define BLDC_STEP_TIMER_NAME            TIM6
-#define BLDC_STEP_TIMER_PRESCALER       ((SystemCoreClock / 1000000) - 1)//1 Mhz timer frequency
-#define BLDC_STEP_TIMER_IRQn            TIM6_DAC_IRQn
-#define BLDC_STEP_TIMER_IRQ_Handler     TIM6_DAC_IRQHandler
 
 //Polygonal mirror - used to generate CLK for polygon mirror motor
 #define POLY_TIMER_NAME                 TIM4
@@ -63,7 +60,7 @@
 #define ENCODER_FILTER_LENGHT           32
 
 // If encoder period bigger than this value (small frequency) -> laser would be turned on continuously
-// â‰ˆÑÐ»Ð¸ Ð¿ÐµÑ€Ð¸Ð¾Ð´ ÑÐ½ÐºÐ¾Ð´ÐµÑ€Ð° Ð±ÑƒÐ´ÐµÑ‚ Ð±Ð¾Ð»ÑŒÑˆÐµ (Ð½Ð¸Ð·ÐºÐ°Â¤ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð°), Ñ‚Ð¾ Ð»Ð°Ð·ÐµÑ€ Ð²ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑÑ Ð½Ð° Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ðµ ÑÐ²ÐµÑ‡ÐµÐ½Ð¸Ðµ
+// Åñëè ïåðèîä ýíêîäåðà áóäåò áîëüøå (íèçêàÿ ÷àñòîòà), òî ëàçåð âêëþ÷èòñÿ íà ïîñòîÿííîå ñâå÷åíèå
 #define SYSTEM_MIN_PERIOD               (1500) //value in us, 1500us -> 666.6 Hz
 
 

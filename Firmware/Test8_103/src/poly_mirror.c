@@ -30,11 +30,11 @@ extern volatile uint16_t verical_step;
 //syncro timer
 void ENCODER_IRQ_Handler(void)
 {
-  uint16_t interrupt_time = ENCODER_TIMER_NAME->CNT;
+  uint16_t interrupt_time = ENCODER_TIMER_NAME->CNT;//Time the MCU entered to IRQ handler
   if (TIM_GetITStatus(ENCODER_TIMER_NAME, TIM_IT_CC1) == SET)//interrupt from encoder (timer input capture)
   {
-    encoder_period_fast = TIM_GetCapture1(ENCODER_TIMER_NAME);
-    interrupt_enter = interrupt_time - encoder_period_fast;
+    encoder_period_fast = TIM_GetCapture1(ENCODER_TIMER_NAME);//Captured (instant) time of photodiode event
+    interrupt_enter = interrupt_time - encoder_period_fast;//Time to enter to this IRQ handler
     ENCODER_TIMER_NAME->CNT = interrupt_enter;//RESET timer with compensation of time to enter into this interrupt
     
     encoder_period = filter_period(encoder_period_fast);
@@ -86,7 +86,6 @@ void do_line_scan_switch(void)
       TIM_SetCompare2(ENCODER_TIMER_NAME, new_time);
       scan_pos++;
       laser_turn_off();
-      //prepare_laser_line(verical_step);
       break;
     }
     
