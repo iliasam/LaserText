@@ -4,9 +4,10 @@
 #include "stdint.h"
 #include "string.h"
 #include "fonts.h"
+#include "config.h"
 
-#define LCD_WIDTH       (8*32)
-#define LCD_HEIGHT      24
+#define LCD_WIDTH               (8 * BYTES_IN_LINE)
+#define LCD_HEIGHT              VERT_LINE_NUMBER
 
 #define LCD_LEFT_OFFSET         0
 #define LCD_RIGHT_OFFSET        (LCD_WIDTH - 0)
@@ -20,7 +21,7 @@
 #define FONT_SIZE_11            12//7*11
 #define FONT_SIZE_11_WIDTH      8//7*11
 
-#define LCD_NEW_LINE_FLAG       1//jump to new line
+#define LCD_NEW_LINE_FLAG       1//jump to a new line
 #define LCD_INVERTED_FLAG       2//inverted draw
 
 void lcd_full_clear(void);

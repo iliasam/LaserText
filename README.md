@@ -12,3 +12,5 @@ Laser - any suitable diode laser (from laser pointer (weak) or from DVD - powerf
 Polygon mirror module (from laser printer) - I think that every one that you can run is suitable.
   
 See "FW_structure.png" and "TIM2_sequence.png" - description about how FW is working.  
+  
+Currently horizontal line length -  256 pixels. Vertical number of lines - 24.  

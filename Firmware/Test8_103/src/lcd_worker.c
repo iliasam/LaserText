@@ -1,5 +1,5 @@
-//Special framebuffer wrapper used for basic operations - text drawing
-//This file is taken from my another project that worked with LCD
+// Special framebuffer wrapper used for basic operations - text drawing
+// This file is taken from my another project that worked with LCD
 #include "lcd_worker.h"
 #include "main.h"
 

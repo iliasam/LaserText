@@ -1,4 +1,5 @@
-//This file contains functions that are used to control polygon mirror and it's encoder (used for synchronization)
+//This file contains functions that are used 
+// to control polygon mirror and its encoder (used for synchronization)
 
 #include "stm32f10x.h"
 #include "poly_mirror.h"
@@ -21,7 +22,7 @@ volatile uint16_t encoder_period_fast = 0;
 volatile uint16_t interrupt_enter = 0;
 
 uint8_t scan_pos = 0;
-volatile uint8_t laser_blocked_on = 1;//1 - means that laser must be turn on all time (no modulation)
+volatile uint8_t laser_blocked_on = 1;//1 - mean that laser must be turn on all time (no modulation)
 uint8_t buffer_switch_request = 0;//Main software set this flag when buffer switching is need
 
 extern volatile uint16_t verical_step;

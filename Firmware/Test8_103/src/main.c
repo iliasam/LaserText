@@ -1,7 +1,8 @@
 //stm32f103c8t6 laser projector
 //IAR compiler
+//SystemCoreClock = 24MHz
 
-//Try to modify "phase_shift" variable if the is some vertical offset of the image
+//Try to modify "phase_shift" variable if there is some vertical offset of the image
 
 #include "stm32f10x.h"
 #include "vertical_mirror.h"
@@ -25,8 +26,6 @@
 
 long tmp;
 
-
-
 volatile uint16_t poly_motor_pwm_period = 2000;
 extern volatile uint16_t encoder_period;
 extern float bldc_vertical_frequency;
@@ -37,11 +36,10 @@ uint32_t update_timer = 0;
 
 uint16_t scanning_freq = 0;//Frequency of scanning (lines in second)
 
-
-void InitAll( void);
+void init_hardware( void);
 void Delay( long Val);
-void Delay_ms(uint32_t ms);
-void Setup_clk(void);
+void delay_ms(uint32_t ms);
+void init_mcu_clk(void);
 void analyse_handler(void);
 
 void image_update_handler(void);
@@ -50,11 +48,11 @@ void image_update_handler3(void);
 
 void main(void)
 {
-  InitAll();//инициализация периферии
+  init_hardware();
   
   SysTick_Config(SystemCoreClock / 1000);//Tick every 1 ms
   
-  Delay_ms(100);
+  delay_ms(100);
   
   vertical_mirror_init_hardware();
   poly_mirror_init_hardware();
@@ -71,7 +69,7 @@ void main(void)
   }
 }
 
-//Functions to calculate sync frequency and update PWM period of poly mirror timer
+// Functions to calculate sync frequency and update PWM period of poly mirror timer
 void analyse_handler(void)
 {
   if (TIMER_ELAPSED(analyse_timer))
@@ -83,7 +81,25 @@ void analyse_handler(void)
   }
 }
 
-//Not used, just example
+void image_update_handler2(void)
+{
+  static uint8_t counter = 0;
+  
+  if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))
+  {
+    START_TIMER(update_timer, 50);
+    
+    lcd_clear_framebuffer();
+
+    lcd_draw_string("GEEKTIMES.RU", 0, 0, FONT_SIZE_8, 0);
+    lcd_draw_string("LASER PROJECTOR", 0, 8, FONT_SIZE_8, 0);
+    
+    counter++;
+    buffer_switch_request = 1;
+  }
+}
+
+//Not used, just an example
 //"floating" string
 void image_update_handler(void)
 {
@@ -113,25 +129,7 @@ void image_update_handler(void)
   }
 }
 
-void image_update_handler2(void)
-{
-  static uint8_t counter = 0;
-  
-  if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))
-  {
-    START_TIMER(update_timer, 50);
-    
-    lcd_clear_framebuffer();
-
-    lcd_draw_string("GEEKTIMES.RU", 0, 0, FONT_SIZE_8, 0);
-    lcd_draw_string("LASER PROJECTOR", 0, 8, FONT_SIZE_8, 0);
-    
-    counter++;
-    buffer_switch_request = 1;
-  }
-}
-
-//Not used, just example
+//Not used, just an example
 void image_update_handler3(void)
 {
   if (TIMER_ELAPSED(update_timer) && (buffer_switch_request == 0))
@@ -140,7 +138,6 @@ void image_update_handler3(void)
     
     lcd_clear_framebuffer();
 
-    
     lcd_draw_string("FONT SIZE 11x7", 0, 0, FONT_SIZE_11, 0);
     lcd_draw_string("FONT SIZE 7x5", 120, 0, FONT_SIZE_8, 0);
     lcd_draw_string("FONT SIZE 6x4", 0, 12, FONT_SIZE_6, 0);
@@ -151,10 +148,11 @@ void image_update_handler3(void)
   }
 }
 
+//##################################
 
-void InitAll( void) 
+void init_hardware( void) 
 {
-  Setup_clk();
+  init_mcu_clk();
   
   GPIO_InitTypeDef  GPIO_InitStructure;
  
@@ -173,7 +171,7 @@ void InitAll( void)
 }
 
 
-void Setup_clk(void)
+void init_mcu_clk(void)
 {
   ErrorStatus HSEStartUpStatus;
   
@@ -215,11 +213,9 @@ void Setup_clk(void)
       //RCC fail
     }
   }
-  
-  
 }
 
-void Delay_ms(uint32_t ms)
+void delay_ms(uint32_t ms)
 {
   volatile uint32_t nCount;
   RCC_ClocksTypeDef RCC_Clocks;

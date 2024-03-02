@@ -16,7 +16,7 @@ uint16_t verical_step_table_a[BLDC_STEP_COUNT];
 uint16_t verical_step_table_b[BLDC_STEP_COUNT];
 
 volatile uint16_t verical_step = 0;
-uint8_t phase_shift = DEFAULT_PASE_SHIFT;
+uint8_t phase_shift = DEFAULT_PHASE_SHIFT;
 
 
 void init_debug_dac(void);
