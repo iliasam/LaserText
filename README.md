@@ -7,9 +7,9 @@ Main parts of it are: polygon mirror module, laser, BLDC motor from DVD with glu
 
 MCU board is Blue Pill (STM32F103C8T6).
 
-Laser - any suitable diode laser (from laser pointer (weak) or from DVD - powerful, but dangerous for eyes).
+Laser - any suitable diode laser (from a laser pointer (weak) or from DVD - powerful, but dangerous for eyes).
 
-Polygon mirror module (from laser printer) - I think that every one that you can run is suitable.
+Polygon mirror module (from a laser printer) - I think that any that you can run is suitable.
   
 See "FW_structure.png" and "TIM2_sequence.png" - description about how FW is working.  
   
